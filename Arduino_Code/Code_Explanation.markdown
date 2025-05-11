@@ -273,4 +273,4 @@ The code ensures only one analog sensor is powered at a time, preventing signal 
 - **ThingSpeak Errors**: Confirm `channelID` and `thingSpeakApiKey`. Check ThingSpeak’s status codes in the Serial Monitor.
 - **Inaccurate Analog Readings**: Ensure only one sensor is powered during its `analogRead()`. Test with a multimeter if needed.
 
-This code powers the Smart Agriculture System, enabling real-time environmental monitoring for sustainable farming. For hardware details, see the [circuit diagram](photos/smart-agriculture-system-ckt.png).
+This code powers the Smart Agriculture System, enabling real-time environmental monitoring for sustainable farming. For hardware details, see the [circuit diagram](../Photos/smart-agriculture-system-ckt.png).
