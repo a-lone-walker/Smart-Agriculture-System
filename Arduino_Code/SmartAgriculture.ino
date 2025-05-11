@@ -11,10 +11,11 @@ const char* thingSpeakApiKey = "YOUR_THINGSPEAK_API_KEY"; // Replace with your T
 const unsigned long channelID = YOUR_CHANNEL_ID; // Replace with your ThingSpeak Channel ID
 
 // Pin definitions
-#define SOIL_MOISTURE_PIN A0 // Analog pin for soil moisture sensor
-#define DHT_PIN D4 // Digital pin for DHT11 sensor
-#define LDR_PIN A0 // Analog pin for LDR (shared with soil moisture, adjust if needed)
-#define DHT_TYPE DHT11 // DHT sensor type (DHT11 or DHT22)
+#define SOIL_MOISTURE_POWER D5 // Power control for Soil Moisture Sensor
+#define LDR_POWER D6          // Power control for LDR
+#define DHT_PIN D4            // Digital pin for DHT11 sensor
+#define ANALOG_PIN A0         // Shared analog pin for Soil Moisture and LDR
+#define DHT_TYPE DHT11        // DHT sensor type (DHT11 or DHT22)
 
 // Initialize DHT sensor
 DHT dht(DHT_PIN, DHT_TYPE);
@@ -24,11 +25,17 @@ WiFiClient client;
 
 // Timing variables
 unsigned long lastUpdate = 0;
-const long updateInterval = 15000; // Update every 60 seconds
+const long updateInterval = 60000; // Update every 60 seconds
 
 void setup() {
   Serial.begin(115200);
   delay(10);
+
+  // Initialize pins
+  pinMode(SOIL_MOISTURE_POWER, OUTPUT);
+  pinMode(LDR_POWER, OUTPUT);
+  digitalWrite(SOIL_MOISTURE_POWER, LOW); // Start with both sensors off
+  digitalWrite(LDR_POWER, LOW);
 
   // Initialize DHT sensor
   dht.begin();
@@ -47,15 +54,26 @@ void setup() {
 }
 
 void loop() {
-  // Check if it's time to update
   if (millis() - lastUpdate >= updateInterval) {
-    // Read sensor data
-    float soilMoisture = analogRead(SOIL_MOISTURE_PIN) / 1023.0 * 100; // Convert to percentage
-    float temperature = dht.readTemperature(); // Read temperature in Celsius
-    float humidity = dht.readHumidity(); // Read humidity
-    float lightIntensity = analogRead(LDR_PIN) / 1023.0 * 100; // Convert LDR to percentage
+    // Read Soil Moisture
+    digitalWrite(SOIL_MOISTURE_POWER, HIGH); // Power on Soil Moisture Sensor
+    digitalWrite(LDR_POWER, LOW);            // Power off LDR
+    delay(100); // Wait for sensor to stabilize
+    float soilMoisture = analogRead(ANALOG_PIN) / 1023.0 * 100; // Convert to percentage
+    digitalWrite(SOIL_MOISTURE_POWER, LOW); // Power off Soil Moisture Sensor
 
-    // Check if sensor readings are valid
+    // Read LDR
+    digitalWrite(LDR_POWER, HIGH);          // Power on LDR
+    digitalWrite(SOIL_MOISTURE_POWER, LOW); // Ensure Soil Moisture is off
+    delay(100); // Wait for sensor to stabilize
+    float lightIntensity = analogRead(ANALOG_PIN) / 1023.0 * 100; // Convert to percentage
+    digitalWrite(LDR_POWER, LOW);           // Power off LDR
+
+    // Read DHT11
+    float temperature = dht.readTemperature(); // Read temperature in Celsius
+    float humidity = dht.readHumidity();       // Read humidity
+
+    // Check if DHT readings are valid
     if (isnan(temperature) || isnan(humidity)) {
       Serial.println("Failed to read from DHT sensor!");
       return;
