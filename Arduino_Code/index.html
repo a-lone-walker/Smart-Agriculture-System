@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart Agriculture Dashboard</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <h1>🌱 Smart Agriculture Dashboard</h1>
+    <p>Real-time monitoring for sustainable farming</p>
+  </header>
+
+  <div class="container">
+    <div class="section">
+      <h2>Live Sensor Readings</h2>
+      <div class="sensor-grid">
+        <div class="sensor-card">
+          <h3>Soil Moisture</h3>
+          <p id="soil-moisture">-- %</p>
+        </div>
+        <div class="sensor-card">
+          <h3>Temperature</h3>
+          <p id="temperature">-- °C</p>
+        </div>
+        <div class="sensor-card">
+          <h3>Humidity</h3>
+          <p id="humidity">-- %</p>
+        </div>
+        <div class="sensor-card">
+          <h3>Light Intensity</h3>
+          <p id="light-intensity">-- %</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>Alerts</h2>
+      <div id="alerts" class="alerts">
+        <p>No alerts at the moment.</p>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>About</h2>
+      <p>
+        This Smart Agriculture System uses the ESP8266 to monitor soil moisture, temperature, humidity, and light intensity.
+        Data is sent to ThingSpeak and displayed here in real-time. Alerts are triggered for critical conditions, such as low soil moisture.
+      </p>
+      <a href="https://github.com/yourusername/smart-agriculture" class="btn" target="_blank">Visit GitHub</a>
+      <a href="https://thingspeak.com/channels/YOUR_CHANNEL_ID" class="btn" target="_blank">ThingSpeak Channel</a>
+    </div>
+  </div>
+
+  <footer>
+    <p>© 2025 Smart Agriculture System | Licensed under MIT</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
