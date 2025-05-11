@@ -1,0 +1,23 @@
+# Arduino
+*.ino.bin
+*.ino.elf
+*.ino.hex
+*.ino.map
+
+# Build directories
+/build/
+/.pio/
+
+# macOS
+.DS_Store
+
+# IDEs
+.vscode/
+.idea/
+
+# Libraries (if copied locally)
+lib/
+
+# Temporary files
+*.bak
+*.tmp
